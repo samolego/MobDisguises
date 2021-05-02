@@ -1,35 +1,35 @@
 modLoader = "javafml"
 loaderVersion = "[35,)"
-#issueTrackerURL = ""
-license = "Insert License Here"
+issueTrackerURL = "https://github.com/samolego/MobDisguises/issues"
+license = "MIT"
 
 [[mods]]
-modId = "examplemod"
+modId = "mobdisguises"
 version = "${version}"
-displayName = "Example Mod"
-authors = "Me!"
+displayName = "Mob Disguises"
+authors = "samo_lego"
 description = '''
-This is an example description! Tell everyone what your mod is about!
+Showcasing abilities of DisguiseLib.
 '''
 #logoFile = ""
 
-[[dependencies.examplemod]]
+[[dependencies.mobdisguises]]
 modId = "forge"
 mandatory = true
 versionRange = "[35,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.examplemod]]
+[[dependencies.mobdisguises]]
 modId = "minecraft"
 mandatory = true
 versionRange = "[1.16.2,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.examplemod]]
-modId = "architectury"
+[[dependencies.mobdisguises]]
+modId = "disguiselib"
 mandatory = true
-versionRange = "[1.1.55,)"
+versionRange = "[1.0.1,)"
 ordering = "AFTER"
 side = "BOTH"

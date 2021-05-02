@@ -1,4 +1,4 @@
-package net.examplemod;
+package org.samo_lego.mobdisguises;
 
 import me.shedaniel.architectury.annotations.ExpectPlatform;
 import me.shedaniel.architectury.platform.Platform;

@@ -1,31 +1,27 @@
 {
   "schemaVersion": 1,
-  "id": "examplemod",
+  "id": "mobdisguises",
   "version": "${version}",
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Mob Disguises",
+  "description": "Showcasing abilities of DisguiseLib.",
   "authors": [
-    "Me!"
+    "samo_lego"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/samolego/MobDisguises",
+    "sources": "https://github.com/samolego/MobDisguises"
   },
-  "license": "Insert License Here",
-  "icon": "assets/examplemod/icon.png",
+  "license": "MIT",
+  "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.examplemod.fabric.ExampleModFabric"
+      "org.samo_lego.mobdisguises.fabric.MobDisguisesFabric"
     ]
   },
   "depends": {
     "fabricloader": ">=0.7.4",
     "fabric": "*",
-    "minecraft": ">=1.16.4",
-    "architectury": ">=1.1.55"
-  },
-  "suggests": {
-    "flamingo": "*"
+    "disguiselib": ">=1.0.1"
   }
 }
