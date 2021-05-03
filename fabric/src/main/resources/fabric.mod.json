@@ -12,6 +12,9 @@
     "sources": "https://github.com/samolego/MobDisguises"
   },
   "license": "MIT",
+  "mixins": [
+    "mobdisguises.common.mixins.json"
+  ],
   "icon": "icon.png",
   "environment": "*",
   "entrypoints": {

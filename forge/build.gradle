@@ -12,6 +12,7 @@ architectury {
 }
 
 loom {
+    mixinConfigs = ["mobdisguises.common.mixins.json"]
     useFabricMixin = true
 }
 

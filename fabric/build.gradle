@@ -15,6 +15,10 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.loader_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_version}"
 
+    modRuntime 'com.github.NucleoidMC.DisguiseLib:disguiselib-fabric:6b5e6b94ac'
+    modRuntime "com.github.CaffeineMC:hydrogen-fabric:mc1.16.5-v0.2.0"
+    modRuntime "com.github.astei:lazydfu:0.1.2"
+
     implementation(project(path: ":common")) {
         transitive = false
     }

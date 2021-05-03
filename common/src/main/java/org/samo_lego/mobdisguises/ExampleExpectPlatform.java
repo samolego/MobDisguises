@@ -1,13 +1,11 @@
 package org.samo_lego.mobdisguises;
 
 import me.shedaniel.architectury.annotations.ExpectPlatform;
-import me.shedaniel.architectury.platform.Platform;
 
 import java.nio.file.Path;
 
 public class ExampleExpectPlatform {
     /**
-     * We can use {@link Platform#getConfigFolder()} but this is just an example of {@link ExpectPlatform}.
      * <p>
      * This must be a public static method. The platform-implemented solution must be placed under a
      * platform sub-package, with its class suffixed with {@code Impl}.
