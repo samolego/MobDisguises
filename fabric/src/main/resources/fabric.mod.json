@@ -19,7 +19,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "org.samo_lego.mobdisguises.fabric.MobDisguisesFabric"
+      "org.samo_lego.mobdisguises.MobDisguisesFabric"
     ]
   },
   "depends": {
