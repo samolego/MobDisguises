@@ -39,6 +39,10 @@ public class DisguiseConfig {
         public int mobdisguisesLevel = 4;
         @SerializedName("mobdisguises_permission_node")
         public final String mobdisguissePermissionNode = MOD_ID;
+        @SerializedName("mobdisguises_reloadConfig")
+        public final String mdReloadConfig = MOD_ID + ".config.reload";
+        @SerializedName("mobdisguises_toggleTrueSight")
+        public final String mbTrueSight = MOD_ID + ".config.reload";
     }
 
     @SerializedName("language")
@@ -46,6 +50,8 @@ public class DisguiseConfig {
 
     public static class Language {
         public String configReloaded = "Config was reloaded successfully.";
+        public String trueSightEnabled = "You now see original entities instead of disguises.";
+        public String trueSightDisabled = "You now see disguises normally.";
     }
 
 

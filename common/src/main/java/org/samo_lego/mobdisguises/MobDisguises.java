@@ -1,5 +1,6 @@
 package org.samo_lego.mobdisguises;
 
+import net.minecraft.world.GameRules;
 import org.samo_lego.mobdisguises.config.DisguiseConfig;
 
 import java.io.File;
@@ -10,6 +11,7 @@ public class MobDisguises {
     public static DisguiseConfig config;
     public static File configFile;
     public static boolean LUCKPERMS_LOADED;
+    public static GameRules.Key<GameRules.IntRule> DISGUISED_MOB_SPAWN_CHANCE;
 
     /**
      * Initialises config

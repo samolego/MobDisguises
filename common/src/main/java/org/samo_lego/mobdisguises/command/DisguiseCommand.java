@@ -1,8 +1,11 @@
 package org.samo_lego.mobdisguises.command;
 
+import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.minecraft.block.entity.SkullBlockEntity;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.command.argument.EntitySummonArgumentType;
 import net.minecraft.command.argument.NbtCompoundTagArgumentType;
@@ -18,6 +21,7 @@ import xyz.nucleoid.disguiselib.casts.EntityDisguise;
 
 import java.util.Collection;
 
+import static com.mojang.brigadier.arguments.StringArgumentType.word;
 import static net.minecraft.command.argument.EntityArgumentType.entities;
 import static net.minecraft.command.suggestion.SuggestionProviders.SUMMONABLE_ENTITIES;
 import static net.minecraft.entity.EntityType.PLAYER;
@@ -41,8 +45,16 @@ public class DisguiseCommand {
                                         .executes(DisguiseCommand::setDisguise)
                                     )
                             )
-                            .then(literal("minecraft:player").executes(DisguiseCommand::disguiseAsPlayer))
-                            .then(literal("player").executes(DisguiseCommand::disguiseAsPlayer))
+                            .then(literal("minecraft:player")
+                                    .then(argument("playername", word())
+                                            .executes(DisguiseCommand::disguiseAsPlayer)
+                                    )
+                            )
+                            .then(literal("player")
+                                    .then(argument("playername", word())
+                                            .executes(DisguiseCommand::disguiseAsPlayer)
+                                    )
+                            )
                         )
                         .then(literal("clear").executes(DisguiseCommand::clearDisguise))
                 )
@@ -52,16 +64,34 @@ public class DisguiseCommand {
     private static int disguiseAsPlayer(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
         Collection<? extends Entity> entities = EntityArgumentType.getEntities(ctx, "target");
         ServerCommandSource src = ctx.getSource();
+        GameProfile profile = null;
+        try {
+            String playername = StringArgumentType.getString(ctx, "playername");
+            profile = new GameProfile(src.getPlayer().getUuid(), playername);;
+            profile = SkullBlockEntity.loadProperties(profile);
+
+        } catch(IllegalArgumentException ignored) {
+        }
+
         // Minecraft doesn't allow "summoning" players, that's why we make an exception
+        GameProfile finalProfile = profile;
         entities.forEach(entity -> {
             if(entity == src.getEntity()) {
-                if(PlatformUtil.hasPermission(src, config.perms.disguiseSelf, config.perms.disguiseLevel))
+                if(PlatformUtil.hasPermission(src, config.perms.disguiseSelf, config.perms.disguiseLevel)) {
                     ((EntityDisguise) entity).disguiseAs(PLAYER);
+                    if(finalProfile != null) {
+                        ((EntityDisguise) entity).setGameProfile(finalProfile);
+                    }
+                }
                 else
                     src.sendError(NO_PERMISSION_ERROR);
             } else {
-                if(PlatformUtil.hasPermission(src, config.perms.disguiseOthers, config.perms.disguiseLevel))
+                if(PlatformUtil.hasPermission(src, config.perms.disguiseOthers, config.perms.disguiseLevel)) {
                     ((EntityDisguise) entity).disguiseAs(PLAYER);
+                    if(finalProfile != null) {
+                        ((EntityDisguise) entity).setGameProfile(finalProfile);
+                    }
+                }
                 else
                     src.sendError(NO_PERMISSION_ERROR);
             }
