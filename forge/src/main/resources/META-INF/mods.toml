@@ -1,7 +1,7 @@
 modLoader = "javafml"
 loaderVersion = "[35,)"
 issueTrackerURL = "https://github.com/samolego/MobDisguises/issues"
-license = "MIT"
+license = "UNLICENSE"
 
 [[mods]]
 modId = "mobdisguises"
@@ -18,18 +18,18 @@ modId = "forge"
 mandatory = true
 versionRange = "[35,)"
 ordering = "NONE"
-side = "BOTH"
+side = "SERVER"
 
 [[dependencies.mobdisguises]]
 modId = "minecraft"
 mandatory = true
 versionRange = "[1.16.2,)"
 ordering = "NONE"
-side = "BOTH"
+side = "SERVER"
 
 [[dependencies.mobdisguises]]
 modId = "disguiselib"
 mandatory = true
 versionRange = "[1.0.1,)"
 ordering = "AFTER"
-side = "BOTH"
+side = "SERVER"

@@ -11,7 +11,7 @@
     "homepage": "https://github.com/samolego/MobDisguises",
     "sources": "https://github.com/samolego/MobDisguises"
   },
-  "license": "MIT",
+  "license": "UNLICENSE",
   "mixins": [
     "mobdisguises.common.mixins.json"
   ],

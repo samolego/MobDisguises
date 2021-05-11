@@ -21,7 +21,6 @@ import xyz.nucleoid.disguiselib.casts.EntityDisguise;
 
 import java.util.Collection;
 
-import static com.mojang.brigadier.arguments.StringArgumentType.word;
 import static net.minecraft.command.argument.EntityArgumentType.entities;
 import static net.minecraft.command.suggestion.SuggestionProviders.SUMMONABLE_ENTITIES;
 import static net.minecraft.entity.EntityType.PLAYER;
@@ -46,14 +45,16 @@ public class DisguiseCommand {
                                     )
                             )
                             .then(literal("minecraft:player")
-                                    .then(argument("playername", word())
+                                    /*.then(argument("playername", word())
                                             .executes(DisguiseCommand::disguiseAsPlayer)
-                                    )
+                                    )*/
+                                    .executes(DisguiseCommand::disguiseAsPlayer)
                             )
                             .then(literal("player")
-                                    .then(argument("playername", word())
+                                    /*.then(argument("playername", word())
                                             .executes(DisguiseCommand::disguiseAsPlayer)
-                                    )
+                                    )*/
+                                    .executes(DisguiseCommand::disguiseAsPlayer)
                             )
                         )
                         .then(literal("clear").executes(DisguiseCommand::clearDisguise))
@@ -67,14 +68,14 @@ public class DisguiseCommand {
         GameProfile profile = null;
         try {
             String playername = StringArgumentType.getString(ctx, "playername");
-            profile = new GameProfile(src.getPlayer().getUuid(), playername);;
+            profile = new GameProfile(src.getPlayer().getUuid(), playername);
             profile = SkullBlockEntity.loadProperties(profile);
 
         } catch(IllegalArgumentException ignored) {
         }
 
         // Minecraft doesn't allow "summoning" players, that's why we make an exception
-        GameProfile finalProfile = profile;
+        GameProfile finalProfile = profile == null ? src.getPlayer().getGameProfile() : profile;
         entities.forEach(entity -> {
             if(entity == src.getEntity()) {
                 if(PlatformUtil.hasPermission(src, config.perms.disguiseSelf, config.perms.disguiseLevel)) {

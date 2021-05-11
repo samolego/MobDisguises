@@ -16,7 +16,7 @@ public class MobDisguisesFabric implements ModInitializer {
     @Override
     public void onInitialize() {
         LUCKPERMS_LOADED = FabricLoader.getInstance().isModLoaded("fabric-permissions-api-v0");
-        DISGUISED_MOB_SPAWN_CHANCE = register("disguisedMobSpawnChance", GameRules.Category.UPDATES, GameRuleFactory.createIntRule(0, 0, 100));
+        DISGUISED_MOB_SPAWN_CHANCE = register("disguisedMobSpawnChance", GameRules.Category.SPAWNING, GameRuleFactory.createIntRule(0, 0, 100));
 
         MobDisguises.init(FabricLoader.getInstance().getConfigDir());
 

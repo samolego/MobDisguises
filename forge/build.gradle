@@ -12,12 +12,14 @@ architectury {
 }
 
 loom {
-    mixinConfigs = ["mobdisguises.common.mixins.json"]
+    mixinConfigs = ["mobdisguises.forge.mixins.json", "mobdisguises.common.mixins.json"]
     useFabricMixin = true
 }
 
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
+
+    shadow("com.github.NucleoidMC.DisguiseLib:disguiselib-forge:${rootProject.disguiselib_version}")
 
     modRuntime "com.github.NucleoidMC.DisguiseLib:disguiselib-forge:${rootProject.disguiselib_version}"
 

@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "org.samo_lego.mobdisguises.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "GameRules$TypeAccessor"
+  ],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
