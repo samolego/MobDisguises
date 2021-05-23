@@ -52,6 +52,8 @@ public class DisguiseConfig {
         public String configReloaded = "Config was reloaded successfully.";
         public String trueSightEnabled = "You now see original entities instead of disguises.";
         public String trueSightDisabled = "You now see disguises normally.";
+        public String disguiseSet = "Disguise is now active for the selected entity(es).";
+        public String disguiseCleared = "Disguise is now active for the selected entity(es).";
     }
 
 

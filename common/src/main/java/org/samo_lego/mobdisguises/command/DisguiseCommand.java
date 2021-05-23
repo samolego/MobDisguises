@@ -13,8 +13,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import org.samo_lego.mobdisguises.platform_specific.PlatformUtil;
 import xyz.nucleoid.disguiselib.casts.EntityDisguise;
@@ -70,7 +72,6 @@ public class DisguiseCommand {
             String playername = StringArgumentType.getString(ctx, "playername");
             profile = new GameProfile(src.getPlayer().getUuid(), playername);
             profile = SkullBlockEntity.loadProperties(profile);
-
         } catch(IllegalArgumentException ignored) {
         }
 
@@ -92,6 +93,7 @@ public class DisguiseCommand {
                     if(finalProfile != null) {
                         ((EntityDisguise) entity).setGameProfile(finalProfile);
                     }
+                    src.sendFeedback(new LiteralText(config.lang.disguiseSet).formatted(Formatting.GREEN), false);
                 }
                 else
                     src.sendError(NO_PERMISSION_ERROR);
@@ -111,9 +113,10 @@ public class DisguiseCommand {
                 else
                     src.sendError(NO_PERMISSION_ERROR);
             } else {
-                if(PlatformUtil.hasPermission(src, config.perms.disguiseOthersClear, config.perms.disguiseLevel))
+                if(PlatformUtil.hasPermission(src, config.perms.disguiseOthersClear, config.perms.disguiseLevel)) {
                     ((EntityDisguise) entity).removeDisguise();
-                else
+                    src.sendFeedback(new LiteralText(config.lang.disguiseCleared).formatted(Formatting.GREEN), false);
+                } else
                     src.sendError(NO_PERMISSION_ERROR);
             }
         });
@@ -141,9 +144,10 @@ public class DisguiseCommand {
                 else
                     src.sendError(NO_PERMISSION_ERROR);
             } else {
-                if(PlatformUtil.hasPermission(src, config.perms.disguiseOthers, config.perms.disguiseLevel))
+                if(PlatformUtil.hasPermission(src, config.perms.disguiseOthers, config.perms.disguiseLevel)) {
                     ((EntityDisguise) entity).disguiseAs(entityx);
-                else
+                    src.sendFeedback(new LiteralText(config.lang.disguiseSet).formatted(Formatting.GREEN), false);
+                } else
                     src.sendError(NO_PERMISSION_ERROR);
             }
             return entityx;
