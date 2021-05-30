@@ -13,7 +13,7 @@ import org.samo_lego.mobdisguises.command.MobDisguisesCommand;
 
 import static net.minecraft.world.GameRules.register;
 import static org.samo_lego.mobdisguises.MobDisguises.DISGUISED_MOB_SPAWN_CHANCE;
-import static org.samo_lego.mobdisguises.mixin.GameRules$TypeAccessor.invokeCreate;
+import static org.samo_lego.mobdisguises.mixin.GameRulesTypeAccessor.invokeCreate;
 
 @Mod(MobDisguises.MOD_ID)
 public class MobDisguisesForge {
