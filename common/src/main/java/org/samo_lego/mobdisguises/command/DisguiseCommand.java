@@ -13,6 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -67,38 +68,40 @@ public class DisguiseCommand {
     private static int disguiseAsPlayer(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
         Collection<? extends Entity> entities = EntityArgumentType.getEntities(ctx, "target");
         ServerCommandSource src = ctx.getSource();
-        GameProfile profile = null;
+        GameProfile profile;
+        ServerPlayerEntity player = src.getPlayer();
         try {
             String playername = StringArgumentType.getString(ctx, "playername");
-            profile = new GameProfile(src.getPlayer().getUuid(), playername);
-            profile = SkullBlockEntity.loadProperties(profile);
+            profile = new GameProfile(player.getUuid(), playername);
+            SkullBlockEntity.loadProperties(profile, gameProfile -> {
+                // Minecraft doesn't allow "summoning" players, that's why we make an exception
+                GameProfile finalProfile = gameProfile == null ? player.getGameProfile() : gameProfile;
+                entities.forEach(entity -> {
+                    if(entity == src.getEntity()) {
+                        if(PlatformUtil.hasPermission(src, config.perms.disguiseSelf, config.perms.disguiseLevel)) {
+                            ((EntityDisguise) entity).disguiseAs(PLAYER);
+                            if(finalProfile != null) {
+                                ((EntityDisguise) entity).setGameProfile(finalProfile);
+                            }
+                        }
+                        else
+                            src.sendError(NO_PERMISSION_ERROR);
+                    } else {
+                        if(PlatformUtil.hasPermission(src, config.perms.disguiseOthers, config.perms.disguiseLevel)) {
+                            ((EntityDisguise) entity).disguiseAs(PLAYER);
+                            if(finalProfile != null) {
+                                ((EntityDisguise) entity).setGameProfile(finalProfile);
+                            }
+                            src.sendFeedback(new LiteralText(config.lang.disguiseSet).formatted(Formatting.GREEN), false);
+                        }
+                        else
+                            src.sendError(NO_PERMISSION_ERROR);
+                    }
+                });
+            });
         } catch(IllegalArgumentException ignored) {
         }
 
-        // Minecraft doesn't allow "summoning" players, that's why we make an exception
-        GameProfile finalProfile = profile == null ? src.getPlayer().getGameProfile() : profile;
-        entities.forEach(entity -> {
-            if(entity == src.getEntity()) {
-                if(PlatformUtil.hasPermission(src, config.perms.disguiseSelf, config.perms.disguiseLevel)) {
-                    ((EntityDisguise) entity).disguiseAs(PLAYER);
-                    if(finalProfile != null) {
-                        ((EntityDisguise) entity).setGameProfile(finalProfile);
-                    }
-                }
-                else
-                    src.sendError(NO_PERMISSION_ERROR);
-            } else {
-                if(PlatformUtil.hasPermission(src, config.perms.disguiseOthers, config.perms.disguiseLevel)) {
-                    ((EntityDisguise) entity).disguiseAs(PLAYER);
-                    if(finalProfile != null) {
-                        ((EntityDisguise) entity).setGameProfile(finalProfile);
-                    }
-                    src.sendFeedback(new LiteralText(config.lang.disguiseSet).formatted(Formatting.GREEN), false);
-                }
-                else
-                    src.sendError(NO_PERMISSION_ERROR);
-            }
-        });
         return 0;
     }
 
