@@ -8,10 +8,10 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.block.entity.SkullBlockEntity;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.command.argument.EntitySummonArgumentType;
-import net.minecraft.command.argument.NbtCompoundTagArgumentType;
+import net.minecraft.command.argument.NbtCompoundArgumentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
@@ -42,7 +42,7 @@ public class DisguiseCommand {
                             .then(argument("disguise", EntitySummonArgumentType.entitySummon())
                                 .suggests(SUMMONABLE_ENTITIES)
                                 .executes(DisguiseCommand::setDisguise)
-                                    .then(argument("nbt", NbtCompoundTagArgumentType.nbtCompound())
+                                    .then(argument("nbt", NbtCompoundArgumentType.nbtCompound())
                                         .executes(DisguiseCommand::setDisguise)
                                     )
                             )
@@ -128,15 +128,15 @@ public class DisguiseCommand {
         ServerCommandSource src = ctx.getSource();
         Identifier disguise = EntitySummonArgumentType.getEntitySummon(ctx, "disguise");
 
-        CompoundTag nbt;
+        NbtCompound nbt;
         try {
-            nbt = NbtCompoundTagArgumentType.getCompoundTag(ctx, "nbt").copy();
+            nbt = NbtCompoundArgumentType.getNbtCompound(ctx, "nbt").copy();
         } catch(IllegalArgumentException ignored) {
-            nbt = new CompoundTag();
+            nbt = new NbtCompound();
         }
         nbt.putString("id", disguise.toString());
 
-        CompoundTag finalNbt = nbt;
+        NbtCompound finalNbt = nbt;
         entities.forEach(entity -> EntityType.loadEntityWithPassengers(finalNbt, ctx.getSource().getWorld(), (entityx) -> {
             if(entity == src.getEntity()) {
                 if(PlatformUtil.hasPermission(src, config.perms.disguiseSelf, config.perms.disguiseLevel))

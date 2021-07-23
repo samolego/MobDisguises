@@ -25,10 +25,11 @@ dependencies {
     // Permission API
     modImplementation 'me.lucko:fabric-permissions-api:0.1-SNAPSHOT'
 
-    include("com.github.NucleoidMC.DisguiseLib:disguiselib-fabric:${rootProject.disguiselib_version}")
+    include("xyz.nucleoid:disguiselib-fabric:${rootProject.disguiselib_version}")
 
-    modRuntime "com.github.NucleoidMC.DisguiseLib:disguiselib-fabric:${rootProject.disguiselib_version}"
-    modRuntime "com.github.CaffeineMC:hydrogen-fabric:mc1.16.5-v0.2.0"
+    modRuntime "xyz.nucleoid:disguiselib-fabric:${rootProject.disguiselib_version}"
+
+    //modRuntime "com.github.CaffeineMC:hydrogen-fabric:mc1.16.5-v0.2.0"
     modRuntime "com.github.astei:lazydfu:0.1.2"
 
     implementation(project(path: ":common")) {

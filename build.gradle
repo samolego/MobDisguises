@@ -1,6 +1,6 @@
 plugins {
-    id "architectury-plugin" version "3.1-SNAPSHOT"
-    id "forgified-fabric-loom" version "0.6-SNAPSHOT" apply false
+    id "architectury-plugin" version "3.2-SNAPSHOT"
+    id "dev.architectury.loom" version "0.8.0-SNAPSHOT" apply false
 }
 
 architectury {
@@ -8,10 +8,13 @@ architectury {
 }
 
 subprojects {
-    apply plugin: "forgified-fabric-loom"
+    apply plugin: "dev.architectury.loom"
 
     repositories {
         maven { url 'https://jitpack.io' }
+        maven {
+            url 'https://maven.nucleoid.xyz'
+        }
     }
 
     dependencies {
