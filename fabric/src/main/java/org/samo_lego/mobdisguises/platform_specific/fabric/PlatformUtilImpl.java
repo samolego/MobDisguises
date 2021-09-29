@@ -1,7 +1,7 @@
 package org.samo_lego.mobdisguises.platform_specific.fabric;
 
 import net.minecraft.server.command.ServerCommandSource;
-import org.samo_lego.mobdisguises.permission.LuckPermsHelper;
+import org.samo_lego.mobdisguises.fabric.permission.LuckPermsHelper;
 
 import static org.samo_lego.mobdisguises.MobDisguises.LUCKPERMS_LOADED;
 

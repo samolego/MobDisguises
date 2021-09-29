@@ -37,7 +37,7 @@ public abstract class ServerWorldMixin_SpawnDisguiser {
             method = "addEntity(Lnet/minecraft/entity/Entity;)Z",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/world/chunk/Chunk;addEntity(Lnet/minecraft/entity/Entity;)V"
+                    target = "Lnet/minecraft/server/world/ServerEntityManager;addEntity(Lnet/minecraft/world/entity/EntityLike;)Z"
             )
     )
     private void onEntitySpawn(Entity entity, CallbackInfoReturnable<Boolean> cir) {

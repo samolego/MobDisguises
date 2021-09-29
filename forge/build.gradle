@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "5.0.0"
+    id "com.github.johnrengelman.shadow" version "7.0.0"
 }
 
 configurations {
@@ -12,21 +12,22 @@ architectury {
 }
 
 loom {
-    mixinConfigs = ["mobdisguises.forge.mixins.json", "mobdisguises.common.mixins.json"]
-    useFabricMixin = true
+    forge {
+        mixinConfigs "mobdisguises.forge.mixins.json", "mobdisguises.common.mixins.json"
+    }
 }
 
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
 
-    shadow("com.github.NucleoidMC.DisguiseLib:disguiselib-forge:${rootProject.disguiselib_version}")
+    //todo shadow("com.github.NucleoidMC.DisguiseLib:disguiselib-forge:${rootProject.disguiselib_version}")
 
-    modRuntime "com.github.NucleoidMC.DisguiseLib:disguiselib-forge:${rootProject.disguiselib_version}"
+    //todo modRuntime "com.github.NucleoidMC.DisguiseLib:disguiselib-forge:${rootProject.disguiselib_version}"
 
-    implementation(project(path: ":common")) {
+    implementation(project(path: ":common", configuration: "dev")) {
         transitive = false
     }
-    developmentForge(project(path: ":common")) {
+    developmentForge(project(path: ":common", configuration: "dev")) {
         transitive = false
     }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) {
@@ -57,10 +58,6 @@ remapJar {
 
 jar {
     classifier "dev"
-}
-
-java {
-    withSourcesJar()
 }
 
 sourcesJar {

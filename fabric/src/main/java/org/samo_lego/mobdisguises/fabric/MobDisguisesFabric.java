@@ -1,10 +1,11 @@
-package org.samo_lego.mobdisguises;
+package org.samo_lego.mobdisguises.fabric;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.world.GameRules;
+import org.samo_lego.mobdisguises.MobDisguises;
 import org.samo_lego.mobdisguises.command.DisguiseCommand;
 import org.samo_lego.mobdisguises.command.MobDisguisesCommand;
 

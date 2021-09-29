@@ -1,4 +1,4 @@
-package org.samo_lego.mobdisguises.permission;
+package org.samo_lego.mobdisguises.fabric.permission;
 
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.server.command.ServerCommandSource;
