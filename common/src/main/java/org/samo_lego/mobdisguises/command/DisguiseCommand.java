@@ -24,6 +24,7 @@ import xyz.nucleoid.disguiselib.casts.EntityDisguise;
 
 import java.util.Collection;
 
+import static com.mojang.brigadier.arguments.StringArgumentType.word;
 import static net.minecraft.command.argument.EntityArgumentType.entities;
 import static net.minecraft.command.suggestion.SuggestionProviders.SUMMONABLE_ENTITIES;
 import static net.minecraft.entity.EntityType.PLAYER;
@@ -48,15 +49,15 @@ public class DisguiseCommand {
                                     )
                             )
                             .then(literal("minecraft:player")
-                                    /*.then(argument("playername", word())
+                                    .then(argument("playername", word())
                                             .executes(DisguiseCommand::disguiseAsPlayer)
-                                    )*/
+                                    )
                                     .executes(DisguiseCommand::disguiseAsPlayer)
                             )
                             .then(literal("player")
-                                    /*.then(argument("playername", word())
+                                    .then(argument("playername", word())
                                             .executes(DisguiseCommand::disguiseAsPlayer)
-                                    )*/
+                                    )
                                     .executes(DisguiseCommand::disguiseAsPlayer)
                             )
                         )
