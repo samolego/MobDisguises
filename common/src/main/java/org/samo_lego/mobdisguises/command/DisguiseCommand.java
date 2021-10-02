@@ -71,38 +71,40 @@ public class DisguiseCommand {
         ServerCommandSource src = ctx.getSource();
         GameProfile profile;
         ServerPlayerEntity player = src.getPlayer();
+        String playername;
         try {
-            String playername = StringArgumentType.getString(ctx, "playername");
-            profile = new GameProfile(player.getUuid(), playername);
-            SkullBlockEntity.loadProperties(profile, gameProfile -> {
-                // Minecraft doesn't allow "summoning" players, that's why we make an exception
-                GameProfile finalProfile = gameProfile == null ? player.getGameProfile() : gameProfile;
-                entities.forEach(entity -> {
-                    if(entity == src.getEntity()) {
-                        if(PlatformUtil.hasPermission(src, config.perms.disguiseSelf, config.perms.disguiseLevel)) {
-                            ((EntityDisguise) entity).disguiseAs(PLAYER);
-                            if(finalProfile != null) {
-                                ((EntityDisguise) entity).setGameProfile(finalProfile);
-                            }
-                        }
-                        else
-                            src.sendError(NO_PERMISSION_ERROR);
-                    } else {
-                        if(PlatformUtil.hasPermission(src, config.perms.disguiseOthers, config.perms.disguiseLevel)) {
-                            ((EntityDisguise) entity).disguiseAs(PLAYER);
-                            if(finalProfile != null) {
-                                ((EntityDisguise) entity).setGameProfile(finalProfile);
-                            }
-                            src.sendFeedback(new LiteralText(config.lang.disguiseSet).formatted(Formatting.GREEN), false);
-                        }
-                        else
-                            src.sendError(NO_PERMISSION_ERROR);
-                    }
-                });
-            });
+            playername = StringArgumentType.getString(ctx, "playername");
         } catch(IllegalArgumentException ignored) {
+            playername = player.getGameProfile().getName();
         }
 
+        profile = new GameProfile(player.getUuid(), playername);
+        SkullBlockEntity.loadProperties(profile, gameProfile -> {
+            // Minecraft doesn't allow "summoning" players, that's why we make an exception
+            GameProfile finalProfile = gameProfile == null ? player.getGameProfile() : gameProfile;
+            entities.forEach(entity -> {
+                if(entity == src.getEntity()) {
+                    if(PlatformUtil.hasPermission(src, config.perms.disguiseSelf, config.perms.disguiseLevel)) {
+                        ((EntityDisguise) entity).disguiseAs(PLAYER);
+                        if(finalProfile != null) {
+                            ((EntityDisguise) entity).setGameProfile(finalProfile);
+                        }
+                    }
+                    else
+                        src.sendError(NO_PERMISSION_ERROR);
+                } else {
+                    if(PlatformUtil.hasPermission(src, config.perms.disguiseOthers, config.perms.disguiseLevel)) {
+                        ((EntityDisguise) entity).disguiseAs(PLAYER);
+                        if(finalProfile != null) {
+                            ((EntityDisguise) entity).setGameProfile(finalProfile);
+                        }
+                        src.sendFeedback(new LiteralText(config.lang.disguiseSet).formatted(Formatting.GREEN), false);
+                    }
+                    else
+                        src.sendError(NO_PERMISSION_ERROR);
+                }
+            });
+        });
         return 0;
     }
 
