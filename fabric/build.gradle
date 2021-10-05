@@ -3,7 +3,9 @@ plugins {
 }
 
 configurations {
-    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+    shadowCommon
+    compileClasspath.extendsFrom shadowCommon
+    runtimeClasspath.extendsFrom shadowCommon
 }
 
 architectury {
@@ -32,9 +34,6 @@ dependencies {
     //modRuntime "com.github.CaffeineMC:hydrogen-fabric:mc1.16.5-v0.2.0"
     modRuntime "com.github.astei:lazydfu:0.1.2"
 
-    implementation(project(path: ":common", configuration: "dev")) {
-        transitive = false
-    }
     developmentFabric(project(path: ":common", configuration: "dev")) {
         transitive = false
     }

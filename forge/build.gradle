@@ -3,7 +3,9 @@ plugins {
 }
 
 configurations {
-    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+    shadowCommon
+    compileClasspath.extendsFrom shadowCommon
+    runtimeClasspath.extendsFrom shadowCommon
 }
 
 architectury {
@@ -24,9 +26,6 @@ dependencies {
 
     modRuntime "com.github.NucleoidMC.DisguiseLib:disguiselib-forge:${rootProject.disguiselib_version}"
 
-    implementation(project(path: ":common", configuration: "dev")) {
-        transitive = false
-    }
     developmentForge(project(path: ":common", configuration: "dev")) {
         transitive = false
     }
