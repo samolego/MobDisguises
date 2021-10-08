@@ -1,5 +1,9 @@
+import com.modrinth.minotaur.TaskModrinthUpload
+
 plugins {
     id "com.github.johnrengelman.shadow" version "7.0.0"
+    id 'com.matthewprenger.cursegradle'
+    id "com.modrinth.minotaur"
 }
 
 configurations {
@@ -83,4 +87,49 @@ publishing {
     repositories {
         // Add repositories to publish to here.
     }
+}
+
+def ENV = System.getenv();
+curseforge {
+    if (ENV.CURSEFORGE_API_KEY) {
+        apiKey = ENV.CURSEFORGE_API_KEY
+    }
+
+    project {
+        id = "481116"
+        changelog = "A changelog can be found at https://github.com/samolego/MobDisguises/releases/${version}"
+        releaseType = "release"
+        addGameVersion "${project.minecraft_version}"
+        addGameVersion "Forge"
+
+        mainArtifact(file("${project.buildDir}/libs/${archivesBaseName}-${version}-forge.jar")) {
+            displayName = "[${project.minecraft_version}] MobDisguises ${version}"
+        }
+
+        afterEvaluate {
+            uploadTask.dependsOn("remapJar")
+        }
+    }
+
+    options {
+        forgeGradleIntegration = false
+    }
+}
+
+task modrinth(type: TaskModrinthUpload, dependsOn: remapJar) {
+    onlyIf {
+        ENV.MODRINTH_TOKEN
+    }
+
+    token = ENV.MODRINTH_TOKEN
+    projectId = "AnnyO6Mp"
+    versionNumber = version + "-forge"
+    changelog = "A changelog can be found at https://github.com/samolego/MobDisguises/releases/${version}"
+    versionName = "[${project.minecraft_version}] MobDisguises ${version} [Forge]"
+    releaseType = "release"
+
+    uploadFile = file("${project.buildDir}/libs/${archivesBaseName}-${version}-forge.jar")
+
+    addGameVersion("${project.minecraft_version}")
+    addLoader('forge')
 }

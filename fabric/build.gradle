@@ -1,5 +1,9 @@
+import com.modrinth.minotaur.TaskModrinthUpload
+
 plugins {
     id "com.github.johnrengelman.shadow" version "7.0.0"
+    id 'com.matthewprenger.cursegradle'
+    id "com.modrinth.minotaur"
 }
 
 configurations {
@@ -29,7 +33,8 @@ dependencies {
 
     include("xyz.nucleoid:disguiselib-fabric:${rootProject.disguiselib_version}")
 
-    modRuntime "xyz.nucleoid:disguiselib-fabric:${rootProject.disguiselib_version}"
+    //modRuntime "xyz.nucleoid:disguiselib-fabric:${rootProject.disguiselib_version}"
+    modRuntime 'com.github.NucleoidMC.DisguiseLib:disguiselib-fabric:13153217f9'
 
     //modRuntime "com.github.CaffeineMC:hydrogen-fabric:mc1.16.5-v0.2.0"
     modRuntime "com.github.astei:lazydfu:0.1.2"
@@ -89,4 +94,48 @@ publishing {
     repositories {
         // Add repositories to publish to here.
     }
+}
+def ENV = System.getenv();
+curseforge {
+    if (ENV.CURSEFORGE_API_KEY) {
+        apiKey = ENV.CURSEFORGE_API_KEY
+    }
+
+    project {
+        id = "481116"
+        changelog = "A changelog can be found at https://github.com/samolego/MobDisguises/releases/${version}"
+        releaseType = "release"
+        addGameVersion "${project.minecraft_version}"
+        addGameVersion "Fabric"
+
+        mainArtifact(file("${project.buildDir}/libs/${archivesBaseName}-${version}-fabric.jar")) {
+            displayName = "[${project.minecraft_version}] MobDisguises ${version} [Fabric]"
+        }
+
+        afterEvaluate {
+            uploadTask.dependsOn("remapJar")
+        }
+    }
+
+    options {
+        forgeGradleIntegration = false
+    }
+}
+
+task modrinth(type: TaskModrinthUpload, dependsOn: remapJar) {
+    onlyIf {
+        ENV.MODRINTH_TOKEN
+    }
+
+    token = ENV.MODRINTH_TOKEN
+    projectId = "AnnyO6Mp"
+    versionNumber = version+ "-fabric"
+    changelog = "A changelog can be found at https://github.com/samolego/MobDisguises/releases/${version}"
+    versionName = "[${project.minecraft_version}] MobDisguises ${version} [Fabric]"
+    releaseType = "release"
+
+    uploadFile = file("${project.buildDir}/libs/${archivesBaseName}-${version}-fabric.jar")
+
+    addGameVersion("${project.minecraft_version}")
+    addLoader('fabric')
 }
