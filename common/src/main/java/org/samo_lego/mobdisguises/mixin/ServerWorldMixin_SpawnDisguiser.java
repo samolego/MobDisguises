@@ -25,7 +25,7 @@ public abstract class ServerWorldMixin_SpawnDisguiser {
     @Shadow public abstract ServerWorld toServerWorld();
 
     @Unique
-    private final List<EntityType<?>> mobdisguises$DISGUISE_POSSIBILITIES = Registry.ENTITY_TYPE
+    private static final List<EntityType<?>> mobdisguises$DISGUISE_POSSIBILITIES = Registry.ENTITY_TYPE
             .stream()
             .filter(type ->
                     type.isSummonable() &&
@@ -44,7 +44,7 @@ public abstract class ServerWorldMixin_SpawnDisguiser {
         if(entity instanceof MobEntity && !((EntityDisguise) entity).isDisguised()) {
             int randomChance = ((MobEntity) entity).getRandom().nextInt(100);
             if(this.toServerWorld().getGameRules().get(DISGUISED_MOB_SPAWN_CHANCE).get() > randomChance) {
-                EntityType<?> disguise = this.mobdisguises$DISGUISE_POSSIBILITIES.get(((MobEntity) entity).getRandom().nextInt(mobdisguises$DISGUISE_POSSIBILITIES.size()));
+                EntityType<?> disguise = mobdisguises$DISGUISE_POSSIBILITIES.get(((MobEntity) entity).getRandom().nextInt(mobdisguises$DISGUISE_POSSIBILITIES.size()));
                 ((EntityDisguise) entity).disguiseAs(disguise);
             }
         }
