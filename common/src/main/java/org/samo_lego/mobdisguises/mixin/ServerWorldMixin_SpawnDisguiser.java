@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xyz.nucleoid.disguiselib.casts.EntityDisguise;
+import xyz.nucleoid.disguiselib.api.EntityDisguise;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -3,11 +3,11 @@ dependencies {
     // Do NOT use other classes from fabric loader
     modImplementation "net.fabricmc:fabric-loader:${rootProject.loader_version}"
 
-    modCompileOnly "xyz.nucleoid:disguiselib-fabric:${rootProject.disguiselib_version}"
+    modCompileOnly "com.github.NucleoidMC.DisguiseLib:disguiselib-api:${rootProject.disguiselib_version}"
 }
 
 architectury {
-    common(false)
+    common()
 }
 
 configurations {

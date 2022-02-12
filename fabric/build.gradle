@@ -6,16 +6,19 @@ plugins {
     id "com.modrinth.minotaur"
 }
 
-configurations {
-    shadowCommon
-    compileClasspath.extendsFrom shadowCommon
-    runtimeClasspath.extendsFrom shadowCommon
-}
-
 architectury {
     platformSetupLoomIde()
     fabric()
 }
+
+configurations {
+    common
+    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentFabric.extendsFrom common
+}
+
 
 repositories {
     maven {
@@ -31,20 +34,15 @@ dependencies {
     // Permission API
     modImplementation 'me.lucko:fabric-permissions-api:0.1-SNAPSHOT'
 
-    include("xyz.nucleoid:disguiselib-fabric:${rootProject.disguiselib_version}")
+    modImplementation(include("xyz.nucleoid:disguiselib-fabric:${rootProject.disguiselib_version}"))
 
-    //modRuntime "xyz.nucleoid:disguiselib-fabric:${rootProject.disguiselib_version}"
-    modRuntime 'com.github.NucleoidMC.DisguiseLib:disguiselib-fabric:13153217f9'
-
-    //modRuntime "com.github.CaffeineMC:hydrogen-fabric:mc1.16.5-v0.2.0"
-    modRuntime "com.github.astei:lazydfu:0.1.2"
-
-    developmentFabric(project(path: ":common", configuration: "dev")) {
+    common(project(path: ":common", configuration: 'namedElements')) {
         transitive = false
     }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) {
         transitive = false
     }
+
 }
 
 processResources {

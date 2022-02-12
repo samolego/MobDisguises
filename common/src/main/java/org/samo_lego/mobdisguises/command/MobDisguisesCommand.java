@@ -9,10 +9,12 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.util.Formatting;
 import org.samo_lego.mobdisguises.config.DisguiseConfig;
 import org.samo_lego.mobdisguises.platform_specific.PlatformUtil;
-import xyz.nucleoid.disguiselib.casts.EntityDisguise;
+import xyz.nucleoid.disguiselib.api.EntityDisguise;
 
 import static net.minecraft.server.command.CommandManager.literal;
-import static org.samo_lego.mobdisguises.MobDisguises.*;
+import static org.samo_lego.mobdisguises.MobDisguises.MOD_ID;
+import static org.samo_lego.mobdisguises.MobDisguises.config;
+import static org.samo_lego.mobdisguises.MobDisguises.configFile;
 
 public class MobDisguisesCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, boolean dedicated) {

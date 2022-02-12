@@ -6,16 +6,19 @@ plugins {
     id "com.modrinth.minotaur"
 }
 
-configurations {
-    shadowCommon
-    compileClasspath.extendsFrom shadowCommon
-    runtimeClasspath.extendsFrom shadowCommon
-}
-
 architectury {
     platformSetupLoomIde()
     forge()
 }
+
+configurations {
+    common
+    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentForge.extendsFrom common
+}
+
 
 loom {
     forge {
@@ -26,16 +29,11 @@ loom {
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
 
-    shadow("com.github.NucleoidMC.DisguiseLib:disguiselib-forge:${rootProject.disguiselib_version}")
+    modApi("com.github.NucleoidMC.DisguiseLib:disguiselib-forge:${rootProject.disguiselib_version}")
+    shadowCommon("com.github.NucleoidMC.DisguiseLib:disguiselib-forge:${rootProject.disguiselib_version}") { transitive false }
 
-    modRuntime "com.github.NucleoidMC.DisguiseLib:disguiselib-forge:${rootProject.disguiselib_version}"
-
-    developmentForge(project(path: ":common", configuration: "dev")) {
-        transitive = false
-    }
-    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) {
-        transitive = false
-    }
+    common(project(path: ":common", configuration: "namedElements")) { transitive false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive false }
 }
 
 processResources {

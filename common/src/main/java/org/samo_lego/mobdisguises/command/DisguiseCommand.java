@@ -20,7 +20,7 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import org.samo_lego.mobdisguises.platform_specific.PlatformUtil;
-import xyz.nucleoid.disguiselib.casts.EntityDisguise;
+import xyz.nucleoid.disguiselib.api.EntityDisguise;
 
 import java.util.Collection;
 
@@ -78,7 +78,7 @@ public class DisguiseCommand {
             playername = player.getGameProfile().getName();
         }
 
-        profile = new GameProfile(player.getUuid(), playername);
+        profile = new GameProfile(null, playername);  //fixme profile doesn't contain skin data; migrate to fabrictailor
         SkullBlockEntity.loadProperties(profile, gameProfile -> {
             // Minecraft doesn't allow "summoning" players, that's why we make an exception
             GameProfile finalProfile = gameProfile == null ? player.getGameProfile() : gameProfile;
