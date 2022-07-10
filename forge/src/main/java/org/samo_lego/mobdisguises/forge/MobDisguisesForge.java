@@ -27,8 +27,8 @@ public class MobDisguisesForge {
     public void registerCommands(RegisterCommandsEvent event) {
         CommandDispatcher<ServerCommandSource> dispatcher = event.getDispatcher();
 
-        DisguiseCommand.register(dispatcher, false);
-        MobDisguisesCommand.register(dispatcher, false);
+        DisguiseCommand.register(dispatcher);
+        MobDisguisesCommand.register(dispatcher);
     }
 
 }

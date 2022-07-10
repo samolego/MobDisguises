@@ -1,7 +1,7 @@
 package org.samo_lego.mobdisguises.fabric;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.world.GameRules;
@@ -21,9 +21,9 @@ public class MobDisguisesFabric implements ModInitializer {
 
         MobDisguises.init(FabricLoader.getInstance().getConfigDir());
 
-        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> {
-            DisguiseCommand.register(dispatcher, dedicated);
-            MobDisguisesCommand.register(dispatcher, dedicated);
+        CommandRegistrationCallback.EVENT.register((dispatcher, access, environment) -> {
+            DisguiseCommand.register(dispatcher);
+            MobDisguisesCommand.register(dispatcher);
         });
     }
 }

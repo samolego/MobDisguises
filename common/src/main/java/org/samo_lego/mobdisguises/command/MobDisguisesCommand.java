@@ -5,7 +5,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.samo_lego.mobdisguises.config.DisguiseConfig;
 import org.samo_lego.mobdisguises.platform_specific.PlatformUtil;
@@ -17,7 +17,7 @@ import static org.samo_lego.mobdisguises.MobDisguises.config;
 import static org.samo_lego.mobdisguises.MobDisguises.configFile;
 
 public class MobDisguisesCommand {
-    public static void register(CommandDispatcher<ServerCommandSource> dispatcher, boolean dedicated) {
+    public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(literal(MOD_ID)
             .requires(src -> PlatformUtil.hasPermission(src, config.perms.mobdisguissePermissionNode, config.perms.mobdisguisesLevel))
             .then(literal("reloadConfig")
@@ -32,10 +32,10 @@ public class MobDisguisesCommand {
     }
 
     private static int toggleTrueSight(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
-        ServerPlayerEntity player = ctx.getSource().getPlayer();
+        ServerPlayerEntity player = ctx.getSource().getPlayerOrThrow();
         boolean enabled = ((EntityDisguise) player).hasTrueSight();
         ((EntityDisguise) player).setTrueSight(!enabled);
-        player.sendMessage(new LiteralText(enabled ? config.lang.trueSightDisabled : config.lang.trueSightEnabled).formatted(Formatting.GREEN), false);
+        player.sendMessage(Text.literal(enabled ? config.lang.trueSightDisabled : config.lang.trueSightEnabled).formatted(Formatting.GREEN), false);
         return 0;
     }
 
@@ -43,7 +43,7 @@ public class MobDisguisesCommand {
         config = DisguiseConfig.loadConfigFile(configFile);
 
         ctx.getSource().sendFeedback(
-                new LiteralText(config.lang.configReloaded).formatted(Formatting.GREEN),
+                Text.literal(config.lang.configReloaded).formatted(Formatting.GREEN),
                 false
         );
         return 0;

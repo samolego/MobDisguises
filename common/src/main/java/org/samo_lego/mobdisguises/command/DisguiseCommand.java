@@ -14,9 +14,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import org.samo_lego.mobdisguises.platform_specific.PlatformUtil;
@@ -34,9 +32,9 @@ import static org.samo_lego.mobdisguises.MobDisguises.config;
 
 public class DisguiseCommand {
 
-    private static final Text NO_PERMISSION_ERROR = new TranslatableText("commands.help.failed");
+    private static final Text NO_PERMISSION_ERROR = Text.translatable("commands.help.failed");
 
-    public static void register(CommandDispatcher<ServerCommandSource> dispatcher, boolean dedicated) {
+    public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(literal("disguise")
                 .requires(src -> PlatformUtil.hasPermission(src, config.perms.disguisePermissionNode, config.perms.disguiseLevel))
                 .then(argument("target", entities())
@@ -70,7 +68,7 @@ public class DisguiseCommand {
         Collection<? extends Entity> entities = EntityArgumentType.getEntities(ctx, "target");
         ServerCommandSource src = ctx.getSource();
         GameProfile profile;
-        ServerPlayerEntity player = src.getPlayer();
+        ServerPlayerEntity player = src.getPlayerOrThrow();
         String playername;
         try {
             playername = StringArgumentType.getString(ctx, "playername");
@@ -98,7 +96,7 @@ public class DisguiseCommand {
                         if(finalProfile != null) {
                             ((EntityDisguise) entity).setGameProfile(finalProfile);
                         }
-                        src.sendFeedback(new LiteralText(config.lang.disguiseSet).formatted(Formatting.GREEN), false);
+                        src.sendFeedback(Text.literal(config.lang.disguiseSet).formatted(Formatting.GREEN), false);
                     }
                     else
                         src.sendError(NO_PERMISSION_ERROR);
@@ -121,7 +119,7 @@ public class DisguiseCommand {
             } else {
                 if(PlatformUtil.hasPermission(src, config.perms.disguiseOthersClear, config.perms.disguiseLevel)) {
                     ((EntityDisguise) entity).removeDisguise();
-                    src.sendFeedback(new LiteralText(config.lang.disguiseCleared).formatted(Formatting.GREEN), false);
+                    src.sendFeedback(Text.literal(config.lang.disguiseCleared).formatted(Formatting.GREEN), false);
                 } else
                     src.sendError(NO_PERMISSION_ERROR);
             }
@@ -152,7 +150,7 @@ public class DisguiseCommand {
             } else {
                 if(PlatformUtil.hasPermission(src, config.perms.disguiseOthers, config.perms.disguiseLevel)) {
                     ((EntityDisguise) entity).disguiseAs(entityx);
-                    src.sendFeedback(new LiteralText(config.lang.disguiseSet).formatted(Formatting.GREEN), false);
+                    src.sendFeedback(Text.literal(config.lang.disguiseSet).formatted(Formatting.GREEN), false);
                 } else
                     src.sendError(NO_PERMISSION_ERROR);
             }

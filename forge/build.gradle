@@ -29,8 +29,8 @@ loom {
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
 
-    modApi("com.github.NucleoidMC.DisguiseLib:disguiselib-forge:${rootProject.disguiselib_version}")
-    shadowCommon("com.github.NucleoidMC.DisguiseLib:disguiselib-forge:${rootProject.disguiselib_version}") { transitive false }
+    //modImplementation("com.github.NucleoidMC.DisguiseLib:disguiselib-forge:${rootProject.disguiselib_version}")
+    //shadowCommon("com.github.NucleoidMC.DisguiseLib:disguiselib-forge:${rootProject.disguiselib_version}") { transitive false }
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive false }
